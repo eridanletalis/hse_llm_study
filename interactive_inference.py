@@ -73,7 +73,7 @@ PROMPT_TEMPLATE = """### Instruction:
 # Загрузка модели и токенизатора
 # =============================
 def load_model_and_tokenizer(model_path: str, adapter_path: str):
-    print("📥 Загрузка модели и токенизатора...")
+    print("Загрузка модели и токенизатора...")
 
     # Конфигурация квантования
     bnb_config = BitsAndBytesConfig(
@@ -99,7 +99,7 @@ def load_model_and_tokenizer(model_path: str, adapter_path: str):
     model = PeftModel.from_pretrained(base_model, adapter_path)
     model.eval()
 
-    print("✅ Модель успешно загружена!")
+    print("Модель успешно загружена!")
     return model, tokenizer
 
 # =============================
@@ -169,7 +169,7 @@ def main():
     model, tokenizer = load_model_and_tokenizer(args.model_path, args.adapter_path)
 
     print("\n" + "="*80)
-    print("🚀 ИНТЕРАКТИВНЫЙ ИНФЕРЕНС ЗАПУЩЕН")
+    print("ИНТЕРАКТИВНЫЙ ИНФЕРЕНС ЗАПУЩЕН")
     print("="*80)
     print("Введите текстовый запрос на русском или английском языке.")
     print("Для выхода введите: quit или exit")
@@ -179,15 +179,15 @@ def main():
         try:
             user_input = input("Ваш запрос: ").strip()
             if user_input.lower() in ["quit", "exit"]:
-                print("👋 До свидания!")
+                print("До свидания!")
                 break
             if not user_input:
                 continue
 
-            print("🧠 Генерация SQL...")
+            print("Генерация SQL...")
             sql = generate_sql(model, tokenizer, user_input)
 
-            print(f"\n✅ Сгенерированный SQL:\n{sql}\n")
+            print(f"\nСгенерированный SQL:\n{sql}\n")
 
             # Опционально: проверка синтаксиса
             if validate_sql(sql):
@@ -198,7 +198,7 @@ def main():
             print("-" * 80)
 
         except KeyboardInterrupt:
-            print("\n\n👋 Принудительный выход. До свидания!")
+            print("\n\nПринудительный выход. До свидания!")
             break
         except Exception as e:
             print(f"❌ Ошибка: {str(e)}\n")
