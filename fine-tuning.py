@@ -112,7 +112,7 @@ def main():
     logger = setup_logging(os.path.join(args.output_dir, "logs"))
 
     logger.info("="*60)
-    logger.info("🚀 НАЧАЛО ОБУЧЕНИЯ")
+    logger.info("НАЧАЛО ОБУЧЕНИЯ")
     logger.info("="*60)
     logger.info(f"Модель: {args.model_path}")
     logger.info(f"Данные: {args.data_path}")
@@ -125,7 +125,7 @@ def main():
     logger.info(f"Validation split: {args.val_split}")
 
     # Логирование памяти до загрузки модели
-    logger.info("📊 Память до загрузки модели:")
+    logger.info("Память до загрузки модели:")
     log_gpu_memory()
 
     # Загрузка датасета
@@ -151,7 +151,7 @@ def main():
     )
 
     # Загрузка модели и токенизатора
-    logger.info("📥 Загрузка модели и токенизатора...")
+    logger.info("Загрузка модели и токенизатора...")
     tokenizer = AutoTokenizer.from_pretrained(args.model_path, trust_remote_code=True)
     model = AutoModelForCausalLM.from_pretrained(
         args.model_path,
@@ -163,7 +163,7 @@ def main():
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
 
-    logger.info("🔧 Подготовка модели для k-bit обучения...")
+    logger.info("Подготовка модели для k-bit обучения...")
     model = prepare_model_for_kbit_training(model)
 
     # LoRA конфиг
@@ -180,11 +180,11 @@ def main():
     model = get_peft_model(model, peft_config)
     model.print_trainable_parameters()
 
-    logger.info("📊 Память после загрузки модели:")
+    logger.info("Память после загрузки модели:")
     log_gpu_memory()
 
     # Токенизация
-    logger.info("🔤 Токенизация данных...")
+    logger.info("Токенизация данных...")
 
     def tokenize_function(examples):
         return tokenizer(
@@ -264,11 +264,11 @@ def main():
     trainer.add_callback(LossHistoryCallback())
 
     # Обучение
-    logger.info("🔥 Начало обучения...")
+    logger.info("Начало обучения...")
     train_result = trainer.train()
 
     # Логирование результатов
-    logger.info("📈 Результаты обучения:")
+    logger.info("Результаты обучения:")
     logger.info(f"  Общее количество шагов: {train_result.global_step}")
     logger.info(f"  Последняя train loss: {train_result.training_loss}")
 
@@ -285,10 +285,10 @@ def main():
     model.save_pretrained(final_lora_path)
     tokenizer.save_pretrained(final_lora_path)
 
-    logger.info("✅ Обучение успешно завершено!")
+    logger.info("Обучение успешно завершено!")
     logger.info(f"Адаптеры сохранены в: {final_lora_path}")
 
-    logger.info("📊 Память после обучения:")
+    logger.info("Память после обучения:")
     log_gpu_memory()
 
     # Сохранение истории лоссов
@@ -318,7 +318,7 @@ def main():
         logger.info("📈 График loss сохранён в plots/loss_curve.png")
 
     logger.info("="*60)
-    logger.info("🎉 ОБУЧЕНИЕ ЗАВЕРШЕНО")
+    logger.info("ОБУЧЕНИЕ ЗАВЕРШЕНО")
     logger.info("="*60)
 
 
